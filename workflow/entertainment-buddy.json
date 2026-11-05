@@ -1,0 +1,63 @@
+{
+  "name": "Entertainment Buddy",
+  "nodes": [
+    {
+      "parameters": { "options": {} },
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.5,
+      "position": [0, 0],
+      "id": "4a1be0d3-58a5-42d2-82f9-5ac553ca75be",
+      "name": "When chat message received",
+      "webhookId": "67363fbe-964c-4a43-aa2b-51322c5957bb"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "You are Entertainment Buddy, a personalised entertainment recommendation assistant.\n\nRecommend movies, web series, anime, documentaries and entertainment events based on the user's mood, interests, preferred language, time and budget.\n\nRules:\n1. Give 3–5 relevant recommendations.\n2. Include Telugu, Hindi, English, Korean and international content when relevant.\n3. Briefly explain why each recommendation matches.\n4. Ask one short follow-up question if essential information is missing.\n5. Use Tavily web search for latest releases, current ratings, streaming availability and upcoming events.\n6. Never invent dates, ratings, prices or availability.\n7. Keep answers friendly, concise and useful.\n\nFor movies and shows include title, genre, language, year and a short description.\n\nFor events include name, location, date and verified ticket details.\n\nYour goal is to help users discover entertainment they will enjoy."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [224, 0],
+      "id": "2037cdcd-40ea-47a3-9829-daea284dbf3a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "model": "openai/gpt-oss-120b",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGroq",
+      "typeVersion": 1,
+      "position": [96, 208],
+      "id": "be82a0c6-d293-46cf-8f82-ae9c9fda338d",
+      "name": "Groq Chat Model"
+    },
+    {
+      "parameters": { "options": {} },
+      "type": "@n8n/mcp-registry.tavily",
+      "typeVersion": 1.1,
+      "position": [192, 208],
+      "id": "91c9b607-2def-427b-bf78-9f08cd87f674",
+      "name": "Tavily MCP"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [[{ "node": "AI Agent", "type": "main", "index": 0 }]]
+    },
+    "Groq Chat Model": {
+      "ai_languageModel": [[{ "node": "AI Agent", "type": "ai_languageModel", "index": 0 }]]
+    },
+    "Tavily MCP": {
+      "ai_tool": [[{ "node": "AI Agent", "type": "ai_tool", "index": 0 }]]
+    }
+  },
+  "active": false,
+  "settings": { "executionOrder": "v1", "binaryMode": "separate" },
+  "versionId": "f7772fc3-c18a-4e7f-8eec-01391a7caed5",
+  "meta": { "templateCredsSetupCompleted": false },
+  "nodeGroups": [],
+  "tags": []
+}
